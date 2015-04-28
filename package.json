@@ -4,7 +4,7 @@
   "description": "Used to normalize html and jsx to strings so they can be used in assertions.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node_modules/karma/bin/karma start --single-run --browsers Firefox",
+    "test": "node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
     "test-dev": "node_modules/karma/bin/karma start",
     "build": "babel -d lib/ index.js"
   },
@@ -21,14 +21,15 @@
     "babel": "^5.1.13",
     "babelify": "6.0.2",
     "chai": "2.3.0",
+    "core-js": "^0.9.4",
     "hintify": "0.1.0",
     "karma": "0.12.31",
     "karma-browserify": "3.0.0",
     "karma-chai": "0.1.0",
     "karma-chrome-launcher": "0.1.8",
     "karma-coverage": "0.3.1",
-    "karma-firefox-launcher": "0.1.4",
     "karma-mocha": "0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "2.2.4",
     "uglifyjs": "2.4.10"
   },
