@@ -4,8 +4,7 @@
   "description": "Used to normalize html and jsx to strings so they can be used in assertions.",
   "main": "index.js",
   "scripts": {
-    "test": "karma start",
-    "build": "browserify index.js | uglifyjs -cm > lib/bundle.min.js"
+    "test": "karma start"
   },
   "keywords": [
     "test"
@@ -14,7 +13,6 @@
   "license": "",
   "devDependencies": {
     "babelify": "^6.0.2",
-    "browserify": "^9.0.8",
     "chai": "^2.3.0",
     "hintify": "^0.1.0",
     "karma": "^0.12.31",
