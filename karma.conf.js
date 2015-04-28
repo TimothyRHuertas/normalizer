@@ -8,10 +8,10 @@ module.exports = function(karma) {
       'test/**/*Spec.js'
     ],
 
-    reporters: [ 'progress' ],
+    reporters: ['progress', 'coverage'],
 
     preprocessors: {
-      'test/**/*Spec.js': [ 'browserify' ]
+      'test/**/*Spec.js': ['browserify', 'coverage']
     },
 
     client: {
@@ -30,8 +30,7 @@ module.exports = function(karma) {
 
     // browserify configuration
     browserify: {
-      debug: true,
-      transform: [ 'babelify', 'hintify' ]
+      debug: true
     }
   });
 };
