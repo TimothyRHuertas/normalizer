@@ -2,16 +2,16 @@
 
 module.exports = function(karma) {
   karma.set({
-    frameworks: ['mocha-debug', 'mocha', 'chai', 'browserify' ],
+    frameworks: ['mocha', 'chai', 'browserify' ],
 
     files: [
       'test/**/*Spec.js'
     ],
 
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
 
     preprocessors: {
-      'test/**/*Spec.js': ['browserify', 'coverage']
+      'test/**/*Spec.js': ['browserify']
     },
 
     client: {
