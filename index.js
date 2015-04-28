@@ -123,7 +123,7 @@ module.exports = function(attributes, styles){
       //they passed in styles to consider, but did not whitelist the attribute
       //lets do the intelligent default
       stylesToConsider = toLowerMap(styles);
-      attributesToConsider["style"] = true; 
+      attributesToConsider.style = true; 
     }
     else {
       stylesToConsider = toLowerMap(defaultStyles);
@@ -131,7 +131,7 @@ module.exports = function(attributes, styles){
 
     return {
         reactView(view){
-            return normalizeHTMLFromReactView(view, attributesToConsider, stylesToConsider);
+          return normalizeHTMLFromReactView(view, attributesToConsider, stylesToConsider);
         },
         reactComponent(component){
             return normalizedHTMLFromReactComponent(component, attributesToConsider, stylesToConsider);
