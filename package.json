@@ -13,19 +13,19 @@
   "author": "Timothy Huertas",
   "license": "",
   "devDependencies": {
-    "babelify": "^6.0.2",
-    "chai": "^2.3.0",
-    "hintify": "^0.1.0",
-    "karma": "^0.12.31",
-    "karma-browserify": "^3.0.0",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^0.1.8",
-    "karma-coverage": "^0.3.1",
-    "karma-firefox-launcher": "^0.1.4",
-    "karma-mocha": "^0.1.10",
-    "karma-mocha-debug": "^0.1.2",
-    "mocha": "^2.2.4",
-    "uglifyjs": "^2.4.10"
+    "babelify": "6.0.2",
+    "chai": "2.3.0",
+    "hintify": "0.1.0",
+    "karma": "0.12.31",
+    "karma-browserify": "3.0.0",
+    "karma-chai": "0.1.0",
+    "karma-chrome-launcher": "0.1.8",
+    "karma-coverage": "0.3.1",
+    "karma-firefox-launcher": "0.1.4",
+    "karma-mocha": "0.1.10",
+    "karma-mocha-debug": "0.1.2",
+    "mocha": "2.2.4",
+    "uglifyjs": "2.4.10"
   },
   "browserify": {
     "transform": [
@@ -34,6 +34,6 @@
     ]
   },
   "dependencies": {
-    "react": "^0.13.2"
+    "react": "0.13.2"
   }
 }
