@@ -117,8 +117,17 @@ function toLowerMap(array){
 
 module.exports = function(attributes, styles){
     var attributesToConsider = attributes ? toLowerMap(attributes) : toLowerMap(defaultAttributes);
-    var stylesToConsider = styles ? toLowerMap(styles) : toLowerMap(defaultStyles);
+    var stylesToConsider;
 
+    if(styles && styles.length) {
+      //they passed in styles to consider, but did not whitelist the attribute
+      //lets do the intelligent default
+      stylesToConsider = toLowerMap(styles);
+      attributesToConsider["style"] = true; 
+    }
+    else {
+      stylesToConsider = toLowerMap(defaultStyles);
+    }
 
     return {
         reactView(view){
