@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require('react');
-var defaultStyles = ["dispaly"];
+var defaultStyles = ["display"];
 var defaultAttributes = ["style", "class"];
 
 function normalizeHTML(node, attributesToConsider, stylesToConsider){

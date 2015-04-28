@@ -14,7 +14,7 @@ describe("When configured with default options", (() => {
 
   it('only retains the style and class attributes', (() => { 
       var normalized = normalizer.domNode(testDiv);
-      var expected = "";
+      var expected = "<div><div class=\"spin glow auto\" style=\"display:block\">some text</div></div>";
       assert.equal(normalized, expected); 
   }));
 }));
