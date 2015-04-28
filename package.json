@@ -2,10 +2,11 @@
   "name": "Normalizer",
   "version": "0.0.1",
   "description": "Used to normalize html and jsx to strings so they can be used in assertions.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "node_modules/karma/bin/karma start --single-run --browsers Firefox",
-    "test-dev": "node_modules/karma/bin/karma start"
+    "test-dev": "node_modules/karma/bin/karma start",
+    "build": "babel -d lib/ index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   "author": "Timothy Huertas",
   "license": "",
   "devDependencies": {
+    "babel": "^5.1.13",
     "babelify": "6.0.2",
     "chai": "2.3.0",
     "hintify": "0.1.0",
