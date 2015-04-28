@@ -1,0 +1,41 @@
+{
+  /*
+   * ENVIRONMENTS
+   * =================
+   */
+
+  // Define globals exposed by modern browsers.
+  "browser": true,
+
+  "mocha": true,
+
+  "esnext": true,
+
+  /*
+   * ENFORCING OPTIONS
+   * =================
+   */
+
+  // Prohibit use of == and != in favor of === and !==.
+  "eqeqeq": true,
+
+  // Require capitalized names for constructor functions.
+  "newcap": true,
+
+  // Prohibit use of explicitly undeclared variables.
+  "undef": true,
+
+  // Warn when variables are defined but never used.
+  "unused": true,
+
+  /*
+   * RELAXING OPTIONS
+   * =================
+   */
+
+  // Suppress warnings about == null comparisons.
+  "asi": true,
+  "eqnull": true,
+  "expr": true,
+  "browserify": true
+}

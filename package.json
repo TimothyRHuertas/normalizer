@@ -1,0 +1,29 @@
+{
+  "name": "Normalizer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "babelify": "^6.0.2",
+    "chai": "^2.3.0",
+    "hintify": "^0.1.0",
+    "karma": "^0.12.31",
+    "karma-browserify": "^3.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.8",
+    "karma-mocha": "^0.1.10",
+    "karma-mocha-debug": "^0.1.2",
+    "mocha": "^2.2.4"
+  },
+  "dependencies": {
+    "react": "^0.13.2"
+  }
+}
