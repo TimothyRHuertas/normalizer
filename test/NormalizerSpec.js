@@ -22,6 +22,35 @@ describe("When using the normalier", (() => {
 
   });
 
+  describe("and normalizing a dom string", (()=> {
+    var domString;
+
+    beforeEach(() => {
+      domString = "<div><div data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div></div>";
+    }); 
+
+    describe("and it's configured with the default options", (()=> {
+      it('only retains the style and class attributes and removes all styles except display', (() => { 
+        var normalized = normalizerDefalut.domString(domString);
+        assert.equal(normalized, expectedNormal); 
+      }));
+    })); 
+
+    describe("and it's configured with whitelisted attributes", (()=> {
+      it('only retains the whitelisted attributes and sorts them in alphabetical order', (() => { 
+        var normalized = normalizerWitelistedAttributes.domString(domString);
+        assert.equal(normalized, expectedWhitelistedAttributes); 
+      }));
+    })); 
+
+    describe("and it's configured with whitelisted styles", (()=> {
+      it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
+        var normalized = normalizerWhitelistedStyles.domString(domString);
+        assert.equal(normalized, expectedWhitelistedStyles); 
+      }));
+    })); 
+  }));
+
   describe("and normalizing a dom node", (()=> {
     var domNode;
 

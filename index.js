@@ -94,6 +94,11 @@ function normalizeStyle(style, stylesToConsider){
 
 function normalizedHTMLFromReactComponent(reactComponent, attributesToConsider, stylesToConsider){
   var domString = React.renderToStaticMarkup(reactComponent);
+  
+  return normalizeHTMLString(domString, attributesToConsider, stylesToConsider);
+}
+
+function normalizeHTMLString(domString, attributesToConsider, stylesToConsider){
   var holderNode = document.createElement("div");
   holderNode.innerHTML = domString;
   var normalized = normalizeHTML(holderNode.children[0], attributesToConsider, stylesToConsider);
@@ -138,6 +143,9 @@ module.exports = function(attributes, styles){
         },
         domNode(node){
             return normalizeHTML(node, attributesToConsider, stylesToConsider);
+        },
+        domString(string){
+            return normalizeHTMLString(string, attributesToConsider, stylesToConsider);
         }
 
     };
