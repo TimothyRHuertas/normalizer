@@ -13,10 +13,16 @@
     "url": "https://github.com/TimothyRHuertas/normalizer"
   },
   "keywords": [
-    "test"
+    "test",
+    "normalize HTML",
+    "HTML",
+    "test JSX",
+    "react test",
+    "javascript test",
+    "assertions"
   ],
   "author": "Timothy Huertas",
-  "license": "",
+  "license": "ISC",
   "devDependencies": {
     "babel": "^5.1.13",
     "babelify": "6.0.2",
