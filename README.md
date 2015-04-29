@@ -84,9 +84,9 @@ Normalizer's constructor `Normalizer(attributes, styles)` takes 2 optional argum
 Normalizer can return a normalized HTML string for 4 types of input.  
 
 * `normalizer.reactView(reactView)` 
-* `normalizer.reactComponent`
-* `normalizer.domNode`
-* `normalizer.domString`
+* `normalizer.reactComponent(reactComponent)`
+* `normalizer.domNode(domNode)`
+* `normalizer.domString(htmlString)`
 
 #### To Do
 
