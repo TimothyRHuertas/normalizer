@@ -107,7 +107,7 @@ function normalizeHTMLString(domString, attributesToConsider, stylesToConsider){
 }
 
 function normalizeHTMLFromReactView(reactView, attributesToConsider, stylesToConsider){
-    var domNode = React.findDOMNode(reactView, attributesToConsider, stylesToConsider);
+    var domNode = React.findDOMNode(reactView);
 
     return normalizeHTML(domNode, attributesToConsider, stylesToConsider);
 }
