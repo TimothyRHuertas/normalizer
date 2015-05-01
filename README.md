@@ -46,10 +46,10 @@ expectedHTML += "</span>";
 expect(dom.outerHTML).toEqual(expectedHTML); 
 ``` 
 
-The HTML is equal, but the test still fails since the HTML strings differ.  The style and the class properties are in different order.  Making the HTML strings to an exact match fixes the test, but this solution seems brittle.  Furthermore it may be unnecessary to test certain properties and style attributes.  
+The HTML is equal, but the test still fails since the HTML strings differ.  The style and the class properties are in different order.  Changing expectedHTML to match dom.outerHTML fixes the test, but this solution seems brittle.  Furthermore it may be unnecessary to test certain properties and style attributes.  
 
 
-## Normalizer prepares HTML for string equality testing by:
+### Normalizer prepares HTML for string equality testing by:
 
 * Alphabetizing properties.
 * Alphabetizing styles. 
@@ -70,9 +70,9 @@ expect(actual).toEqual(expected);
 
 ### But it's even cooler with React's JSX
 
-Concatenating HTML strings is no fun.  Normalizer works with JSX components.  ***Non React projects can still leverage Normalizer for testing.***  
+Concatenating HTML strings is no fun.  Normalizer works with JSX!  ***Non React projects can still leverage Normalizer for testing.***  
 
-Finally the same test written with JSX and Normalizer.
+Behold the same test written with JSX and Normalizer:
 
 ```JSX
 var Normalizer = require("html-normalizer");
@@ -91,12 +91,12 @@ expect(actual).toEqual(expected);
 
 ### White listing styles and attributes.
 
-Normalizer's constructor `Normalizer({})` takes an optional hash with the following 3 optional properties:
+Normalizer's constructor `Normalizer({})` takes an optional hash with the following optional properties:
 * *attributes* Array of attribute names to keep when normalizing the HTML.  Defaults to `["style", "class"]`
 * *styles* Array of style names to keep when normalizing the HTML.  Defaults to `["display"]`
 * *classNames* Array of class names to keep when normalizing the HTML.  Defaults to `null`.
 
-**NOTE:**  For all options use null to include all; use an empty array to include none. For example the `Normalizer({attributes: null, styles: null, classNames: null})` will compare all attributes, styles and classes.
+**NOTE:**  For all options use null to include all; use an empty array to include none. For example the `Normalizer({attributes: null, styles: null, classNames: null})` will compare all attributes, styles and classes.  `Normalizer({attributes: [], styles: [], classNames: []})` will only compare the DOM nodes and ignore all attributes, styles and classes.
 
 
 
@@ -111,21 +111,21 @@ Normalizer can return a normalized HTML string for 4 types of input.
 
 ### The npm module is named html-normalizer
 
-Normalizer is on npm.  `npm install html-normalizer`.  
+Normalizer is on npm.  `npm install html-normalizer`
 
 #### Disclaimer
 
-The majority of tests written with this util will be functional in nature.  There is no substitute for unit tests.  Like doughnuts, please use it in moderation. 
+The majority of tests written with this util will be functional in nature.  There is no substitute for unit tests.  Like doughnuts, please use Normalizer in moderation. 
 
-**Normalizer is best used with a test runner that reports inline string diffs.**  Similar to what a good source control file diff viewer reports.  
+**Normalizer is best used with a test runner that reports inline string diffs;** Similar to what a good source control file diff viewer reports.  
 
 #### Add test coverage to legacy code faster than ever
 
-This util is very useful for adding functional coverage to legacy code.  Tests that will let you refactor with some degree of confidence.  To start:
+This util is very useful for adding functional test coverage to legacy code.  To start:
 
 1.  Load the module to test.
 2.  Simulate events (click, hover, ajax response, ect).
-3.  Copy the module's outer HTML.
+3.  Copy the module's element's outer HTML.
 4.  Use that HTML and Normalizer to write your assertions. 
 5.  Refactor the code, make sure the tests pass, rinse and repeat.
 
