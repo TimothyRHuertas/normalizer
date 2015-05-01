@@ -1,4 +1,4 @@
-# Normalizer
+# Normalizer (the module named html-normalizer)
 
 [![Build Status](https://travis-ci.org/TimothyRHuertas/normalizer.svg?branch=master)](https://travis-ci.org/TimothyRHuertas/normalizer)
 
@@ -58,7 +58,7 @@ The HTML is equal, but the test still fails since the HTML strings differ.  The 
 Here is the same test written with Normalizer.
 
 ```javascript
-var Normalizer = require("Normalizer");
+var Normalizer = require("html-normalizer");
 var normalizer = new Normalizer();
 var dom = document.getElementById("testElement"); 
 var expectedHTML = "<span style='display: none' class='some-class'><span>Bob</span></span>";
@@ -75,7 +75,7 @@ Concatenating HTML strings is no fun.  Normalizer works with JSX components.  **
 Finally the same test written with JSX and Normalizer.
 
 ```JSX
-var Normalizer = require("Normalizer");
+var Normalizer = require("html-normalizer");
 var normalizer = new Normalizer();
 var dom = document.getElementById("testElement"); 
 var expectedHTML = (
@@ -108,6 +108,10 @@ Normalizer can return a normalized HTML string for 4 types of input.
 * `normalizer.reactComponent(reactComponent)`
 * `normalizer.domNode(domNode)`
 * `normalizer.domString(htmlString)`
+
+### The npm module is named html-normalizer
+
+Normalizer is on npm.  `npm install html-normalizer`.  
 
 #### Disclaimer
 
