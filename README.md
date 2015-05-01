@@ -23,7 +23,7 @@ expect(dom).toHaveText("Bob");
 expect(dom).toBeHidden();
 ```
 
-Overtime this becomes to difficult read.  Especially when testing large DOM trees.  Here is an alternate approach: 
+Overtime this becomes too difficult read.  Especially when testing large DOM trees.  Here is an alternate approach: 
 
 ```javascript
 var dom = document.getElementById("testElement"); 
@@ -46,16 +46,16 @@ expectedHTML += "</div>";
 expect(dom.outerHTML).toEqual(expectedHTML); 
 ``` 
 
-The HTML is equal, but the test still fails since the HTML strings differ.  The style and the class properties are in different order.  Changing expectedHTML to match dom.outerHTML fixes the test, but this solution seems brittle.  Furthermore it may be unnecessary to test certain properties and style attributes.  
+The HTML is equal, but the test still fails since the HTML strings differ.  The style and the class properties are in different order.  Changing `expectedHTML` to match `dom.outerHTML` fixes the test, but this solution seems brittle.  Furthermore it may be unnecessary to test certain properties and style attributes.  
 
 
 ### Normalizer prepares HTML for string equality testing by:
 
-* Alphabetizing properties.
-* Alphabetizing styles. 
-* Filtering out specified properties, class names and style attributes.
+* alphabetizing properties.
+* alphabetizing styles. 
+* filtering out specified properties, class names and style attributes.
 
-Here is the same test written with Normalizer.
+Here is the same test written with Normalizer:
 
 ```javascript
 var Normalizer = require("html-normalizer");
@@ -119,9 +119,9 @@ Normalizer is on npm.  `npm install html-normalizer`
 
 The majority of tests written with this util will be functional in nature.  There is no substitute for unit tests.  Like doughnuts, please use Normalizer in moderation. 
 
-**Normalizer is best used with a test runner that reports inline string diffs;** Similar to what a good source control file diff viewer reports.  
+**Normalizer is best used with a test runner that reports inline string diffs;** similar to what a good source control file diff viewer reports.  
 
-#### Add test coverage to legacy code faster than ever.
+#### Testing legacy code
 
 This util is very useful for adding functional test coverage to legacy code.  To start:
 
@@ -133,7 +133,7 @@ This util is very useful for adding functional test coverage to legacy code.  To
 
 #### To Do:
 
-* Support for use in Require
+* Support for use with AMDs.
 * Support use in build-less JS systems
 * Example usage using build transforms
 * Example usage using `script type="text/jsx"` tags
