@@ -14,7 +14,7 @@ function normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesT
     html += ">";
 
     if(node.hasChildNodes()){
-      Array.prototype.slice.call(node.childNodes,0).forEach(node => {html += normalizeHTML(node, attributesToConsider, stylesToConsider);});
+      Array.prototype.slice.call(node.childNodes,0).forEach(node => {html += normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider);});
     }
     html += "</"+tagName+">";
   }
@@ -65,18 +65,18 @@ function normalizeClass(value, classNamesToConsider){
       //if classNamesToConsider is null use them all
       if(!classNamesToConsider || classNamesToConsider[className]){
         if(!normalized){
-          retVal = "class=\"";
+          normalized = "class=\"";
         }
         
-        normalized += className + " ";
-
-        return normalized;
+        normalized += className + " ";      
       }
+
+      return normalized;
     }, "");
 
     if(retVal){
       retVal = retVal.trim();
-      retVal += "\"";
+      retVal = " " + retVal + "\"";
     } 
   }
 
