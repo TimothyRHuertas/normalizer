@@ -28,9 +28,9 @@ Overtime this becomes to difficult read.  Especially when testing large DOM tree
 ```javascript
 var dom = document.getElementById("testElement"); 
 var expectedNode = document.createElement("div");
-expectedHTML = "<span style='background: red; display: none' class='some-class'>";
+expectedHTML = "<div style='background: red; display: none' class='some-class'>";
 expectedHTML += "<span>Bob</span>";
-expectedHTML += "</span>";
+expectedHTML += "</div>";
 expectedNode.innerHTML = expectedHTML;
 expect(dom.isNodeEqual(expectedNode)).toBeTruthy(); 
 ```
@@ -39,9 +39,9 @@ The test works, but when it fails it's helpful to know how the nodes differ. Her
 
 ```javascript
 var dom = document.getElementById("testElement"); 
-var expectedHTML = "<span style='background: red; display: none' class='some-class'>";
+var expectedHTML = "<div style='background: red; display: none' class='some-class'>";
 expectedHTML += "<span>Bob</span>";
-expectedHTML += "</span>";
+expectedHTML += "</div>";
 
 expect(dom.outerHTML).toEqual(expectedHTML); 
 ``` 
@@ -79,9 +79,9 @@ var Normalizer = require("html-normalizer");
 var normalizer = new Normalizer();
 var dom = document.getElementById("testElement"); 
 var expectedHTML = (
-  <span style={{display: none}} className='some-class'>
+  <div style={{display: none}} className='some-class'>
     <span>Bob</span>
-  </span>
+  </div>
 );
 
 var actual = normalizer.domNode(dom); //method to normalize a DOM node
