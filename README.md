@@ -91,9 +91,14 @@ expect(actual).toEqual(expected);
 
 ### White listing styles and attributes.
 
-Normalizer's constructor `Normalizer(attributes, styles)` takes 2 optional arguments.
+Normalizer's constructor `Normalizer({})` takes an optional hash with the following 3 optional properties:
 * *attributes* Array of attribute names to keep when normalizing the HTML.  Defaults to `["style", "class"]`
 * *styles* Array of style names to keep when normalizing the HTML.  Defaults to `["display"]`
+* *classNames* Array of class names to keep when normalizing the HTML.  Defaults to `null`.
+
+**NOTE:**  For all options use null to include all; use an empty array to include none. For example the `Normalizer({attributes: null, styles: null, classNames: null})` will compare all attributes, styles and classes.
+
+
 
 ### Methods
 

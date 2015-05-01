@@ -4,13 +4,13 @@ var React = require('react');
 var defaultStyles = ["display"];
 var defaultAttributes = ["style", "class"];
 
-function normalizeHTML(node, attributesToConsider, stylesToConsider){
+function normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider){
   var html = "";
 
   if (node.nodeType === 1) {
     var tagName = node.tagName.toLowerCase();
     html += "<"+tagName;
-    html += normalizeAttributes(node, attributesToConsider, stylesToConsider);
+    html += normalizeAttributes(node, attributesToConsider, stylesToConsider, classNamesToConsider);
     html += ">";
 
     if(node.hasChildNodes()){
@@ -25,7 +25,7 @@ function normalizeHTML(node, attributesToConsider, stylesToConsider){
   return html;
 }
 
-function normalizeAttributes(node, attributesToConsider, stylesToConsider){
+function normalizeAttributes(node, attributesToConsider, stylesToConsider, classNamesToConsider){
   var attributes = "";
   var attributeList = Array.prototype.slice.call(node.attributes, 0).reduce(((map, attribute) => {
     map[attribute.nodeName] = attribute.nodeValue;
@@ -35,11 +35,16 @@ function normalizeAttributes(node, attributesToConsider, stylesToConsider){
   Object.keys(attributeList).sort().forEach((attributeKey) => {
     var value = attributeList[attributeKey];
 
-    if(attributesToConsider[attributeKey.toLowerCase()]){
+    if(! attributesToConsider || //if null consider all attributes 
+      attributesToConsider[attributeKey.toLowerCase()]){
+
         if(attributeKey === "style"){
           attributes += normalizeStyle(value, stylesToConsider);
         }
-        else {
+        else if(classNamesToConsider && attributeKey === "class"){
+          attributes += normalizeClass(value, classNamesToConsider);
+        }
+        else if(attributeKey !== "data-reactid"){
           attributes += " ";
           attributes += attributeKey + "=\"" + value + "\"";
         }
@@ -47,6 +52,35 @@ function normalizeAttributes(node, attributesToConsider, stylesToConsider){
   });
 
   return attributes;
+}
+
+function normalizeClass(value, classNamesToConsider){
+  var retVal = "";
+
+  if(value && value.trim()){
+    var classNames = value.replace(/\s+/g, " ").split(" ");
+
+    retVal = classNames.reduce((normalized, className) => {
+
+      //if classNamesToConsider is null use them all
+      if(!classNamesToConsider || classNamesToConsider[className]){
+        if(!normalized){
+          retVal = "class=\"";
+        }
+        
+        normalized += className + " ";
+
+        return normalized;
+      }
+    }, "");
+
+    if(retVal){
+      retVal = retVal.trim();
+      retVal += "\"";
+    } 
+  }
+
+  return retVal;
 }
 
 function normalizeStyle(style, stylesToConsider){
@@ -60,7 +94,8 @@ function normalizeStyle(style, stylesToConsider){
         var key = styleGroup[0].trim();
         var value = styleGroup[1].trim();
 
-        if(stylesToConsider[key.toLowerCase()]){
+        //if styles to consider is null consider them all
+        if(!stylesToConsider || stylesToConsider[key.toLowerCase()]){
             map[key] = value;
         }
     }
@@ -92,21 +127,21 @@ function normalizeStyle(style, stylesToConsider){
   return normalized;
 }
 
-function normalizedHTMLFromReactComponent(reactComponent, attributesToConsider, stylesToConsider){
+function normalizedHTMLFromReactComponent(reactComponent, attributesToConsider, stylesToConsider, classNamesToConsider){
   var domString = React.renderToStaticMarkup(reactComponent);
   
-  return normalizeHTMLString(domString, attributesToConsider, stylesToConsider);
+  return normalizeHTMLString(domString, attributesToConsider, stylesToConsider, classNamesToConsider);
 }
 
-function normalizeHTMLString(domString, attributesToConsider, stylesToConsider){
+function normalizeHTMLString(domString, attributesToConsider, stylesToConsider, classNamesToConsider){
   var holderNode = document.createElement("div");
   holderNode.innerHTML = domString;
-  var normalized = normalizeHTML(holderNode.children[0], attributesToConsider, stylesToConsider);
+  var normalized = normalizeHTML(holderNode.children[0], attributesToConsider, stylesToConsider, classNamesToConsider);
 
   return normalized;
 }
 
-function normalizeHTMLFromReactView(reactView, attributesToConsider, stylesToConsider){
+function normalizeHTMLFromReactView(reactView, attributesToConsider, stylesToConsider, classNamesToConsider){
     var domNode;
 
     try {
@@ -116,7 +151,7 @@ function normalizeHTMLFromReactView(reactView, attributesToConsider, stylesToCon
       domNode = reactView.getDOMNode();
     }
 
-    return normalizeHTML(domNode, attributesToConsider, stylesToConsider);
+    return normalizeHTML(domNode, attributesToConsider, stylesToConsider, classNamesToConsider);
 }
 
 function toLowerMap(array){
@@ -126,33 +161,47 @@ function toLowerMap(array){
     }, {});
 }
 
+function toMap(array){
+    return array.reduce((map, item) => {
+        map[item] = true;
+        return map;
+    }, {});
+}
 
-module.exports = function(attributes, styles){
-    var attributesToConsider = attributes ? toLowerMap(attributes) : toLowerMap(defaultAttributes);
-    var stylesToConsider;
 
-    if(styles && styles.length) {
-      //they passed in styles to consider, but did not whitelist the attribute
-      //lets do the intelligent default
-      stylesToConsider = toLowerMap(styles);
-      attributesToConsider.style = true; 
+module.exports = function(options){
+    if(!options){
+      options = {};
     }
-    else {
-      stylesToConsider = toLowerMap(defaultStyles);
+
+    if(!options.hasOwnProperty("attributes")){
+      options.attributes = defaultAttributes;
     }
+
+    if(!options.hasOwnProperty("styles")){
+      options.styles = defaultStyles;
+    }
+
+    if(!options.hasOwnProperty("classNames")){
+      options.classNames = null; //consider all class names by default
+    }
+
+    var attributesToConsider = options.attributes ? toLowerMap(options.attributes) : null;
+    var classNamesToConsider = options.classNames ? toMap(options.classNames) : null;
+    var stylesToConsider = options.styles ? toLowerMap(options.styles) : null;
 
     return {
         reactView(view){
-          return normalizeHTMLFromReactView(view, attributesToConsider, stylesToConsider);
+          return normalizeHTMLFromReactView(view, attributesToConsider, stylesToConsider, classNamesToConsider);
         },
         reactComponent(component){
-            return normalizedHTMLFromReactComponent(component, attributesToConsider, stylesToConsider);
+            return normalizedHTMLFromReactComponent(component, attributesToConsider, stylesToConsider, classNamesToConsider);
         },
         domNode(node){
-            return normalizeHTML(node, attributesToConsider, stylesToConsider);
+            return normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider);
         },
         domString(string){
-            return normalizeHTMLString(string, attributesToConsider, stylesToConsider);
+            return normalizeHTMLString(string, attributesToConsider, stylesToConsider, classNamesToConsider);
         }
 
     };

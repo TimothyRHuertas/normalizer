@@ -7,26 +7,28 @@ chai = require('chai'),
 assert = chai.assert;
 
 describe("When using the normalier", (() => {
-  var normalizerDefalut, normalizerWitelistedAttributes, normalizerWhitelistedStyles;
-  var expectedNormal, expectedWhitelistedAttributes, expectedWhitelistedStyles;
+  var normalizerDefalut, normalizerWitelistedAttributes, normalizerWhitelistedStyles, normalizerNulls;
+  var expectedNormal, expectedWhitelistedAttributes, expectedWhitelistedStyles, expectedNulls;
 
 
   beforeEach(() => {
     expectedNormal = "<div><div class=\"spin glow auto\" style=\"display:block\">some text</div></div>";
     expectedWhitelistedAttributes = "<div><div data-a=\"something\" data-foo=\"bar\">some text</div></div>";
     expectedWhitelistedStyles = "<div><div style=\"background:red; font-size:12px\">some text</div></div>";
+    expectedNulls = "<div><div class=\"spin glow auto\" data-a=\"something\" data-foo=\"bar\" data-never=\"whitelisted\" style=\"background:red; display:block; font-size:12px\">some text</div></div>";
 
     normalizerDefalut = new Normalizer();
-    normalizerWitelistedAttributes = new Normalizer(["data-a", "data-foo"]);
-    normalizerWhitelistedStyles = new Normalizer([], ["font-size", "background"]);
+    normalizerWitelistedAttributes = new Normalizer({attributes: ["data-a", "data-foo"]});
+    normalizerWhitelistedStyles = new Normalizer({attributes: ["style"], styles: ["font-size", "background"]});
 
+    normalizerNulls = new Normalizer({attributes: null, styles: null, classNames: null});
   });
 
   describe("and normalizing a dom string", (()=> {
     var domString;
 
     beforeEach(() => {
-      domString = "<div><div data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div></div>";
+      domString = "<div><div data-never='whitelisted' data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div></div>";
     }); 
 
     describe("and it's configured with the default options", (()=> {
@@ -49,6 +51,13 @@ describe("When using the normalier", (() => {
         assert.equal(normalized, expectedWhitelistedStyles); 
       }));
     })); 
+
+    describe("and it's configured with null attributes and styles", (()=> {
+      it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
+        var normalized = normalizerNulls.domString(domString);
+        assert.equal(normalized, expectedNulls); 
+      }));
+    })); 
   }));
 
   describe("and normalizing a dom node", (()=> {
@@ -56,7 +65,7 @@ describe("When using the normalier", (() => {
 
     beforeEach(() => {
       domNode = document.createElement("div");
-      domNode.innerHTML = "<div data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div>";
+      domNode.innerHTML = "<div data-never='whitelisted' data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div>";
     }); 
 
     describe("and it's configured with the default options", (()=> {
@@ -79,6 +88,13 @@ describe("When using the normalier", (() => {
         assert.equal(normalized, expectedWhitelistedStyles); 
       }));
     })); 
+
+    describe("and it's configured with null attributes and styles", (()=> {
+      it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
+        var normalized = normalizerNulls.domNode(domNode);
+        assert.equal(normalized, expectedNulls); 
+      }));
+    })); 
   }));
  
   describe("and normalizing a component", (()=> {
@@ -89,6 +105,7 @@ describe("When using the normalier", (() => {
         <div>
           <div data-foo='bar' 
           data-a='something' 
+          data-never='whitelisted'
           style={{fontSize: 12, background: 'red', display: 'block'}}
           className='spin glow auto'>some text</div>
         </div>
@@ -115,6 +132,13 @@ describe("When using the normalier", (() => {
         assert.equal(normalized, expectedWhitelistedStyles); 
       }));
     })); 
+
+    describe("and it's configured with null attributes and styles", (()=> {
+      it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
+        var normalized = normalizerNulls.reactComponent(component);
+        assert.equal(normalized, expectedNulls); 
+      }));
+    })); 
   }));
 
   describe("and normalizing a react view", (()=> {
@@ -127,6 +151,7 @@ describe("When using the normalier", (() => {
                     <div data-foo='bar' 
                     data-a='something' 
                     style={{fontSize: 12, background: 'red', display: 'block'}}
+                    data-never='whitelisted'
                     className='spin glow auto'>some text</div>
                   </div>);
                 }
@@ -155,6 +180,13 @@ describe("When using the normalier", (() => {
       it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
         var normalized = normalizerWhitelistedStyles.reactView(view);
         assert.equal(normalized, expectedWhitelistedStyles); 
+      }));
+    })); 
+
+    describe("and it's configured with null attributes and styles", (()=> {
+      it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
+        var normalized = normalizerNulls.reactView(view);
+        assert.equal(normalized, expectedNulls); 
       }));
     })); 
   }));
