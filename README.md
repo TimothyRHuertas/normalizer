@@ -68,7 +68,7 @@ var expected =  = normalizer.domString(dom); //method to normalize a DOM string
 expect(actual).toEqual(expected); 
 ```
 
-### But it's even cooler with React's JSX
+### But it's even cooler with React's JSX!
 
 Concatenating HTML strings is no fun.  Normalizer works with JSX!  ***Non React projects can still leverage Normalizer for testing.***  
 
@@ -109,7 +109,7 @@ Normalizer can return a normalized HTML string for 4 types of input.
 * `normalizer.domNode(domNode)`
 * `normalizer.domString(htmlString)`
 
-### The npm module is named html-normalizer
+### The npm module is named html-normalizer.
 
 Normalizer is on npm.  `npm install html-normalizer`
 
@@ -119,7 +119,7 @@ The majority of tests written with this util will be functional in nature.  Ther
 
 **Normalizer is best used with a test runner that reports inline string diffs;** Similar to what a good source control file diff viewer reports.  
 
-#### Add test coverage to legacy code faster than ever
+#### Add test coverage to legacy code faster than ever.
 
 This util is very useful for adding functional test coverage to legacy code.  To start:
 
@@ -129,7 +129,7 @@ This util is very useful for adding functional test coverage to legacy code.  To
 4.  Use that HTML and Normalizer to write your assertions. 
 5.  Refactor the code, make sure the tests pass, rinse and repeat.
 
-#### To Do
+#### To Do:
 
 * Support for use in Require
 * Support use in build-less JS systems
