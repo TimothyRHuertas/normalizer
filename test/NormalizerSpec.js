@@ -133,6 +133,27 @@ describe("When using the normalier", (() => {
         assert.equal(normalized, expectedNulls); 
       }));
     })); 
+
+    describe("and it's configured with empty attributes", (()=> {
+      it('only renders markup with no attributes', (() => { 
+        var normalized = normalizerEmptyAttributes.domNode(domNode);
+        assert.equal(normalized, expectedEmptyAttributes); 
+      }));
+    })); 
+
+    describe("and it's configured with empty styles", (()=> {
+      it('only renders markup with no styles', (() => { 
+        var normalized = normalizerEmptyStyles.domNode(domNode);
+        assert.equal(normalized, expectedEmptyStyles); 
+      }));
+    })); 
+
+    describe("and it's configured with empty classNames", (()=> {
+      it('only renders markup with no classNames', (() => { 
+        var normalized = normalizerEmptyClasses.domNode(domNode);
+        assert.equal(normalized, expectedEmptyClasses); 
+      }));
+    })); 
   }));
  
   describe("and normalizing a component", (()=> {
@@ -175,6 +196,27 @@ describe("When using the normalier", (() => {
       it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
         var normalized = normalizerNulls.reactComponent(component);
         assert.equal(normalized, expectedNulls); 
+      }));
+    })); 
+
+    describe("and it's configured with empty attributes", (()=> {
+      it('only renders markup with no attributes', (() => { 
+        var normalized = normalizerEmptyAttributes.reactComponent(component);
+        assert.equal(normalized, expectedEmptyAttributes); 
+      }));
+    })); 
+
+    describe("and it's configured with empty styles", (()=> {
+      it('only renders markup with no styles', (() => { 
+        var normalized = normalizerEmptyStyles.reactComponent(component);
+        assert.equal(normalized, expectedEmptyStyles); 
+      }));
+    })); 
+
+    describe("and it's configured with empty classNames", (()=> {
+      it('only renders markup with no classNames', (() => { 
+        var normalized = normalizerEmptyClasses.reactComponent(component);
+        assert.equal(normalized, expectedEmptyClasses); 
       }));
     })); 
   }));
@@ -225,6 +267,27 @@ describe("When using the normalier", (() => {
       it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
         var normalized = normalizerNulls.reactView(view);
         assert.equal(normalized, expectedNulls); 
+      }));
+    })); 
+
+    describe("and it's configured with empty attributes", (()=> {
+      it('only renders markup with no attributes', (() => { 
+        var normalized = normalizerEmptyAttributes.reactView(view);
+        assert.equal(normalized, expectedEmptyAttributes); 
+      }));
+    })); 
+
+    describe("and it's configured with empty styles", (()=> {
+      it('only renders markup with no styles', (() => { 
+        var normalized = normalizerEmptyStyles.reactView(view);
+        assert.equal(normalized, expectedEmptyStyles); 
+      }));
+    })); 
+
+    describe("and it's configured with empty classNames", (()=> {
+      it('only renders markup with no classNames', (() => { 
+        var normalized = normalizerEmptyClasses.reactView(view);
+        assert.equal(normalized, expectedEmptyClasses); 
       }));
     })); 
   }));
