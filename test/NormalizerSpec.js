@@ -7,8 +7,10 @@ chai = require('chai'),
 assert = chai.assert;
 
 describe("When using the normalier", (() => {
-  var normalizerDefalut, normalizerWitelistedAttributes, normalizerWhitelistedStyles, normalizerWhitelistedClassNames, normalizerNulls;
-  var expectedNormal, expectedWhitelistedAttributes, expectedWhitelistedStyles, expectedWhitelistedClassNames, expectedNulls;
+  var normalizerDefalut, normalizerWitelistedAttributes, normalizerWhitelistedStyles, 
+  normalizerWhitelistedClassNames, normalizerNulls, normalizerEmptyAttributes, normalizerEmptyStyles, normalizerEmptyClasses;
+  var expectedNormal, expectedWhitelistedAttributes, expectedWhitelistedStyles, 
+    expectedWhitelistedClassNames, expectedNulls, expectedEmptyAttributes, expectedEmptyStyles, expectedEmptyClasses;
 
 
   beforeEach(() => {
@@ -17,16 +19,18 @@ describe("When using the normalier", (() => {
     expectedWhitelistedStyles = "<div><div style=\"background:red; font-size:12px\">some text</div></div>";
     expectedNulls = "<div><div class=\"spin glow auto\" data-a=\"something\" data-foo=\"bar\" data-never=\"whitelisted\" style=\"background:red; display:block; font-size:12px\">some text</div></div>";
     expectedWhitelistedClassNames = "<div><div class=\"spin auto\">some text</div></div>";
-    // expectedEmptyAttributes = "<div><div class=\"spin auto\"></div>";
+    expectedEmptyAttributes = "<div><div>some text</div></div>";
+    expectedEmptyStyles = "<div><div class=\"spin glow auto\">some text</div></div>";
+    expectedEmptyClasses = "<div><div style=\"display:block\">some text</div></div>";
 
     normalizerDefalut = new Normalizer();
     normalizerWitelistedAttributes = new Normalizer({attributes: ["data-a", "data-foo"]});
     normalizerWhitelistedStyles = new Normalizer({attributes: ["style"], styles: ["font-size", "background"]});
     normalizerWhitelistedClassNames = new Normalizer({attributes: ["class"], classNames: ["spin", "auto"]});
     normalizerNulls = new Normalizer({attributes: null, styles: null, classNames: null});
-    // normalizerEmptyAttributes = new Normalizer({attributes: []});
-    // normalizerEmptyStyles = new Normalizer({styles: []});
-    // normalizerEmptyClasses = new Normalizer({classNames: []});
+    normalizerEmptyAttributes = new Normalizer({attributes: []});
+    normalizerEmptyStyles = new Normalizer({styles: []});
+    normalizerEmptyClasses = new Normalizer({classNames: []});
 
   });
 
@@ -69,6 +73,27 @@ describe("When using the normalier", (() => {
       it('only retains the whitelisted styles and sorts them in alphabetical order', (() => { 
         var normalized = normalizerNulls.domString(domString);
         assert.equal(normalized, expectedNulls); 
+      }));
+    })); 
+
+    describe("and it's configured with empty attributes", (()=> {
+      it('only renders markup with no attributes', (() => { 
+        var normalized = normalizerEmptyAttributes.domString(domString);
+        assert.equal(normalized, expectedEmptyAttributes); 
+      }));
+    })); 
+
+    describe("and it's configured with empty styles", (()=> {
+      it('only renders markup with no styles', (() => { 
+        var normalized = normalizerEmptyStyles.domString(domString);
+        assert.equal(normalized, expectedEmptyStyles); 
+      }));
+    })); 
+
+    describe("and it's configured with empty classNames", (()=> {
+      it('only renders markup with no classNames', (() => { 
+        var normalized = normalizerEmptyClasses.domString(domString);
+        assert.equal(normalized, expectedEmptyClasses); 
       }));
     })); 
   }));
