@@ -61,7 +61,9 @@ Here is the same test written with Normalizer.
 var Normalizer = require("html-normalizer");
 var normalizer = new Normalizer();
 var dom = document.getElementById("testElement"); 
-var expectedHTML = "<span style='display: none' class='some-class'><span>Bob</span></span>";
+var expectedHTML = "<div style='display: none' class='some-class'>";
+expectedHTML += "<span>Bob</span>";
+expectedHTML += "</div>";
 
 var actual = normalizer.domNode(dom); //method to normalize a DOM node
 var expected =  = normalizer.domString(dom); //method to normalize a DOM string
