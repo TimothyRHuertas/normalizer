@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "watch": "mkdir test/build/ & kill $(lsof -t -i:8000)  & ws -f none & jsx --watch test/spec/ test/build/ & cp ../../lib/index.js test/build/Normalizer.js",
+    "build": "jsx test/spec/ test/build/"
+  },
+  "devDependencies": {
+    "local-web-server": "^0.5.18",
+    "react-tools": "^0.13.2"
+  }
+}

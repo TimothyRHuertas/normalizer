@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <link rel="shortcut icon" type="image/png" href="jasmine/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="jasmine/jasmine.css">
+
+   
+
+    <!-- app files - yes this is ugly.  if you can use an amd or commonjs system -->
+    <script src="/vendor/json2.js"></script>
+    <script src="/vendor/jquery.js"></script>
+    <script src="/vendor/underscore.js"></script>
+    <script src="/vendor/backbone.js"></script>
+    <script src="/vendor/backbone.localStorage.js"></script>
+    <script src="/todos.js"></script>
+
+    <script src="/test/react/react.js"></script>
+
+    <!-- add Normalizer -->
+    <script src="/test/build/Normalizer.js"></script> 
+
+    <script src="/test/jasmine/jasmine.js"></script>
+    <script src="/test/jasmine/jasmine-html.js"></script>
+    <script src="/test/jasmine/boot.js"></script> 
+
+    <!-- be sure to run "npm run watch" so these files are generated-->
+    <script src="/test/build/todos-spec.js"></script>  
+  </head>
+  <body>
+    <!--The code we are testing talks directly to the document.  I had no choice. --> 
+    <div id="appHolder" style="width: 1px; height: 1px; position: absolute; bottom: 0; left: 0" />
+  </body>
+</html>
