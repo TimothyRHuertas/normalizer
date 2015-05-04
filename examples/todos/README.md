@@ -1,5 +1,7 @@
 # No build example
 
+**  Disclaimer:  This is example is 30% complete.  Contributiors are welcome.
+
 Normalzer can test front ends that do not use React.  This example uses Jasmine to test [Backbone's](https://github.com/jashkenas/backbone) todos example.  All the backbone modules in the todos example are in 1 js file. All the markup and templates are in index.html.  It's likely that this was done to keep the example simple, nonetheless it's tough to test.  The todos example has been refactored slightly to externalize the html and templates so they can be used by the test. 
 
 ## Running
