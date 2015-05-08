@@ -1,5 +1,12 @@
+var normalizer;
+
 describe("Testing todos", function() {
+  var header, main, footer, $todoApp;
   beforeEach(function(done) {
+     normalizer = new Normalizer.Normalizer({
+        attributes: ["placeholder", "style"]
+     });
+
      $(function(){   
         //evil.global.AppView is a legacy app module.  
         //It expects inline templates and DOM containers to be on the page.  
@@ -11,10 +18,16 @@ describe("Testing todos", function() {
           //Oh and it writes to local storage.  Better clear that out.  
           localStorage.clear();
 
+          $todoApp = $("#todoapp");
           //Create it now
           new evil.global.AppView({
-            el: $("#todoapp")
+            el: $todoApp
           });
+
+          header = $todoApp.find("header")[0];
+          main = $("#main")[0];
+          footer = $todoApp.find("footer")[0];
+
           done();        
         }, 'html');
       });
@@ -22,11 +35,6 @@ describe("Testing todos", function() {
 
   describe("when there are no todos", function(){
     it("renders the header", function() {
-      var normalizer = new Normalizer.Normalizer({
-        attributes: ["placeholder"]
-      });
-      var $header = $("#todoapp").find("header");
-      var header = $header[0];
       var expected = normalizer.reactComponent((<header>
                         <h1>Todos</h1>
                         <input placeholder="What needs to be done?" />
@@ -34,21 +42,54 @@ describe("Testing todos", function() {
 
       var actual = normalizer.domNode(header);
       expect(actual).toEqual(expected);
-
-      console.log($("#todoapp")[0]);
     });
 
-    it("renders an empty main section", function(){
-      var normalizer = new Normalizer.Normalizer({
-        attributes: ["placeholder"]
-      });
-     
-      var main = $("#main")[0];
+    it("renders an empty/hidden main section", function(){
       var expected = normalizer.reactComponent((
-          <section>
+          <section style={{display:'none'}}>
             <input />
             <label>Mark all as complete</label>
             <ul></ul>
+          </section>
+        ));
+
+      var actual = normalizer.domNode(main);
+      expect(actual).toEqual(expected);
+    });
+
+    it("renders an empty/hidden footer", function(){
+      var expected = normalizer.reactComponent((
+          <footer style={{display:'none'}}>
+             <a>Clear completed</a>
+             <div></div>
+          </footer>
+        ));
+
+      var actual = normalizer.domNode(footer);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe("adding a todo", function(){
+    beforeEach(function(){
+      var $todoInput = $todoApp.find("#new-todo");
+      $todoInput.val("Use normalizer to write tests");
+
+      //simulate enter key
+      var e = $.Event("keypress", {keyCode: 13});
+      $todoInput.trigger(e);
+    });
+
+    it("renders the todo in the main section and empties the text box", function(){
+      var expected = normalizer.reactComponent((
+          <section style={{display:'block'}}>
+             <input></input><label>Mark all as complete</label>
+             <ul>
+                <li>
+                   <div><input></input><label>Use normalizer to write tests</label><a></a></div>
+                   <input></input>
+                </li>
+             </ul>
           </section>
         ));
 
