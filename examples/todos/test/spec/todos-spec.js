@@ -4,7 +4,7 @@ describe("Testing todos", function() {
   var header, main, footer, $todoApp;
   beforeEach(function(done) {
      normalizer = new Normalizer.Normalizer({
-        attributes: ["placeholder", "style", "type"]
+        attributes: ["placeholder", "style", "type", "value"]
      });
 
      $(function(){   
@@ -80,6 +80,16 @@ describe("Testing todos", function() {
       $todoInput.trigger(e);
     });
 
+    it("resets the header", function() {
+      var expected = normalizer.reactComponent((<header>
+                        <h1>Todos</h1>
+                        <input type="text" placeholder="What needs to be done?" />
+                      </header>));
+
+      var actual = normalizer.domNode(header);
+      expect(actual).toEqual(expected);
+    });
+
     it("renders the todo in the main section and empties the text box", function(){
       var expected = normalizer.reactComponent((
           <section style={{display:'block'}}>
@@ -91,13 +101,24 @@ describe("Testing todos", function() {
                     <label>Use normalizer to write tests</label>
                     <a />
                   </div>
-                  <input type="text"/>
+                  <input type="text" value="Use normalizer to write tests"/>
                 </li>
              </ul>
           </section>
         ));
 
       var actual = normalizer.domNode(main);
+      expect(actual).toEqual(expected);
+    });
+
+    it("renders shows the footer", function(){
+      var expected = normalizer.reactComponent((
+          <footer style={{display:'block'}}>
+             <div><b>1</b> item left</div>
+          </footer>
+        ));
+
+      var actual = normalizer.domNode(footer);
       expect(actual).toEqual(expected);
     });
   });
