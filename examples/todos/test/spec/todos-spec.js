@@ -4,7 +4,7 @@ describe("Testing todos", function() {
   var header, main, footer, $todoApp;
   beforeEach(function(done) {
      normalizer = new Normalizer.Normalizer({
-        attributes: ["placeholder", "style"]
+        attributes: ["placeholder", "style", "type"]
      });
 
      $(function(){   
@@ -37,7 +37,7 @@ describe("Testing todos", function() {
     it("renders the header", function() {
       var expected = normalizer.reactComponent((<header>
                         <h1>Todos</h1>
-                        <input placeholder="What needs to be done?" />
+                        <input type="text" placeholder="What needs to be done?" />
                       </header>));
 
       var actual = normalizer.domNode(header);
@@ -47,9 +47,9 @@ describe("Testing todos", function() {
     it("renders an empty/hidden main section", function(){
       var expected = normalizer.reactComponent((
           <section style={{display:'none'}}>
-            <input />
+            <input type="checkbox"/>
             <label>Mark all as complete</label>
-            <ul></ul>
+            <ul />
           </section>
         ));
 
@@ -83,11 +83,15 @@ describe("Testing todos", function() {
     it("renders the todo in the main section and empties the text box", function(){
       var expected = normalizer.reactComponent((
           <section style={{display:'block'}}>
-             <input></input><label>Mark all as complete</label>
+             <input type="checkbox"/><label>Mark all as complete</label>
              <ul>
                 <li>
-                   <div><input></input><label>Use normalizer to write tests</label><a></a></div>
-                   <input></input>
+                  <div>
+                    <input type="checkbox"/>
+                    <label>Use normalizer to write tests</label>
+                    <a />
+                  </div>
+                  <input type="text"/>
                 </li>
              </ul>
           </section>
