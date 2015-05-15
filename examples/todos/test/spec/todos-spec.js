@@ -4,7 +4,8 @@ describe("Testing todos", function() {
   var header, main, footer, $todoApp;
   beforeEach(function(done) {
      normalizer = new Normalizer.Normalizer({
-        attributes: ["placeholder", "style", "type", "value"]
+        attributes: ["placeholder", "style", "type", "value", "class"],
+        classNames: ["destroy"]
      });
 
      $(function(){   
@@ -93,13 +94,14 @@ describe("Testing todos", function() {
     it("renders the todo in the main section and empties the text box", function(){
       var expected = normalizer.reactComponent((
           <section style={{display:'block'}}>
-             <input type="checkbox"/><label>Mark all as complete</label>
+             <input type="checkbox"/>
+             <label>Mark all as complete</label>
              <ul>
                 <li>
                   <div>
                     <input type="checkbox"/>
                     <label>Use normalizer to write tests</label>
-                    <a />
+                    <a className="destroy"/>
                   </div>
                   <input type="text" value="Use normalizer to write tests"/>
                 </li>
@@ -120,6 +122,27 @@ describe("Testing todos", function() {
 
       var actual = normalizer.domNode(footer);
       expect(actual).toEqual(expected);
+    });
+
+    describe("deleting the todo", function(){
+      beforeEach(function(){
+        var $destroyButton = $todoApp.find(".destroy");
+        $destroyButton.trigger("click");
+      });
+
+      it("removes the todo", function(){
+        var expected = normalizer.reactComponent((
+          <section style={{display:'none'}}>
+             <input type="checkbox"/>
+             <label>Mark all as complete</label>
+             <ul/>
+          </section>
+        ));
+
+        var actual = normalizer.domNode(main);
+        expect(actual).toEqual(expected);
+      });
+
     });
   });
   
