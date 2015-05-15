@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/TimothyRHuertas/normalizer.svg?branch=master)](https://travis-ci.org/TimothyRHuertas/normalizer)
 
+`npm install html-normalizer`
+
 Normalizer is designed to help write DOM tests; specifically DOM assertions.  Here is an example of HTML requires test coverage.
 
 ```html
@@ -111,10 +113,6 @@ Normalizer can return a normalized HTML string for 4 types of input.
 * `normalizer.domNode(domNode)`
 * `normalizer.domString(htmlString)`
 
-### The npm module is named html-normalizer.
-
-Normalizer is on npm.  `npm install html-normalizer`
-
 #### Disclaimer
 
 The majority of tests written with this util will be functional in nature.  There is no substitute for unit tests.  Like doughnuts, please use Normalizer in moderation. 
@@ -131,12 +129,10 @@ This util is very useful for adding functional test coverage to legacy code.  To
 4.  Use that HTML and Normalizer to write your assertions. 
 5.  Refactor the code, make sure the tests pass, rinse and repeat.
 
-#### To Do:
+#### Example
 
-* Support for use with AMDs.
-* Support use in build-less JS systems
-* Example usage using build transforms
-* Example usage using `script type="text/jsx"` tags
+* [Testing Backbone TODO MVC](https://github.com/TimothyRHuertas/normalizer/blob/master/examples/todos)
+
 
 
 
