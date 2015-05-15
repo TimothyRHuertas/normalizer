@@ -1,8 +1,8 @@
-# No build example
+# Backbone Todos
 
-The meat of this example is [here](https://github.com/TimothyRHuertas/normalizer/blob/master/examples/todos/test/spec/todos-spec.js).
+If you just want to see the code look at this [spec](https://github.com/TimothyRHuertas/normalizer/blob/master/examples/todos/test/spec/todos-spec.js).
 
-**Disclaimer:**  This is example is 30% complete.  Contributors are welcome.  This example **intentionally uses legacy coding practices**.  It's designed to illustrate that older code bases can take advantage of assertions with JSX.  Follow this guide if you have a project that does not use a build system and you want to start using JSX assertions and Normalzer.  If you are working with a new project or want to do things "the right way" do not follow this example. 
+**Disclaimer:**  This is example is 70% complete.  Contributors are welcome.  This example **intentionally uses legacy coding practices**.  It's designed to illustrate that older code bases can take advantage of assertions with JSX.  
 
 This example uses Jasmine to test [Backbone's](https://github.com/jashkenas/backbone) todos example.  Todos is a difficult code base to test.  All of its backbone modules are in a single jsfile and all the markup and templates are in index.html.  For this demonstration the todos example was refactored to externalize the html and templates so they can be used by the test. 
 
@@ -17,6 +17,15 @@ This example uses Jasmine to test [Backbone's](https://github.com/jashkenas/back
 * [http://localhost:8000/test](http://localhost:8000/test) to run the tests. 
 
 ## Adding Normalze and JSX to your project:
+
+To use Normalizer and JSX your project needs to:
+
+* transpile the tests you write that include JSX.
+* require Normalizer and React.
+
+If you understand how to accomplish the steps above perform them then have a look at the sample [spec](https://github.com/TimothyRHuertas/normalizer/blob/master/examples/todos/test/spec/todos-spec.js); otherwise continue reading.
+
+You are stongly encouraged to use a modern JS build/module management system (grunt, gulp, webpack, browserify ect).  Follow these steps if you ain't got time for that and just want to make it work.
 
 1. Copy package.json to the root of your test project.  If you don't have a test project create an empty folder named test.  Now you have a test project.  Copy package.json in to it.
 2. Add react and normalzer to your test project.  For older projects this looks something like this:
