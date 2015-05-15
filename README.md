@@ -131,7 +131,7 @@ This util is very useful for adding functional test coverage to legacy code.  To
 
 #### Example
 
-* [Testing Backbone TODO MVC](https://github.com/TimothyRHuertas/normalizer/blob/master/examples/todos)
+* [Testing Backbone Todos](https://github.com/TimothyRHuertas/normalizer/blob/master/examples/todos)
 
 
 
