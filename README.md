@@ -1,5 +1,6 @@
 # Normalizer (html-normalizer)
 
+[![Version](http://img.shields.io/npm/v/html-normalizer.svg)](https://www.npmjs.org/package/html-normalizer)
 [![Build Status](https://travis-ci.org/TimothyRHuertas/normalizer.svg?branch=master)](https://travis-ci.org/TimothyRHuertas/normalizer)
 
 `npm install html-normalizer`
