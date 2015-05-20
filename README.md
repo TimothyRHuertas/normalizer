@@ -26,7 +26,7 @@ expect(dom).toHaveText("Bob");
 expect(dom).toBeHidden();
 ```
 
-Overtime this becomes too difficult read.  Especially when testing large DOM trees.  Here is an alternate approach: 
+Overtime this becomes difficult to read.  Especially when testing large DOM trees.  Here is an alternate approach: 
 
 ```javascript
 var dom = document.getElementById("testElement"); 
