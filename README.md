@@ -84,7 +84,7 @@ var Normalizer = require("html-normalizer");
 var normalizer = new Normalizer();
 var dom = document.getElementById("testElement"); 
 var expectedHTML = (
-  <div style={{display: none}} className='some-class'>
+  <div style={{display: 'none'}} className='some-class'>
     <span>Bob</span>
   </div>
 );
