@@ -1,17 +1,22 @@
 "use strict";
 
 (function(factory) {   
-    /*global define, module*/
-    if (typeof define === 'function' && define.amd && define.amd.react) {
-        define(['react'], factory);
-    } else if (typeof exports !== 'undefined') {
-        var React = require('react');
-        module.exports = factory(React);
-    } else {
-        window.Normalizer = { Normalizer: factory(window.React) }; // jshint ignore:line
+  if (typeof exports !== 'undefined') {
+    var React = require('react');
+    if (typeof document === 'undefined') {
+      var jsdom = require('jsdom').jsdom;
+      var doc = jsdom('jsdom document'); 
+      module.exports = factory(React, doc); 
     }
+    else {
+      module.exports = factory(React, document); 
+    }
+    
+  } else {
+    window.Normalizer = { Normalizer: factory(window.React, window.document) }; // jshint ignore:line
+  }
 
-}(function (React) {
+}(function (React, doc) {
   var defaultStyles = ["display"];
   var defaultAttributes = ["style", "class"];
 
@@ -149,7 +154,7 @@
   }
 
   function normalizeHTMLString(domString, attributesToConsider, stylesToConsider, classNamesToConsider){
-    var holderNode = document.createElement("div");
+    var holderNode = doc.createElement("div");
     holderNode.innerHTML = domString;
     var normalized = normalizeHTML(holderNode.children[0], attributesToConsider, stylesToConsider, classNamesToConsider);
 

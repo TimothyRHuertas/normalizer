@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(karma) {
-  karma.set({
+  var configuration = {
     frameworks: ['mocha', 'chai', 'browserify' ],
 
     files: [
@@ -9,7 +9,7 @@ module.exports = function(karma) {
     ],
 
     reporters: ['progress'],
-
+    browserNoActivityTimeout: 100000,
     preprocessors: {
       'test/**/*Spec.js': ['browserify']
     },
@@ -21,7 +21,13 @@ module.exports = function(karma) {
       }
     },
 
-    browsers: [ 'Chrome' ],
+    browsers: [ 'Chrome', 'ChromeCanary' ],
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     logLevel: 'LOG_DEBUG',
 
@@ -33,5 +39,12 @@ module.exports = function(karma) {
       debug: true,
       transform: [ 'babelify', 'hintify' ]
     }
-  });
+  };
+
+  if(process.env.TRAVIS){
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  karma.set(configuration);
+
 };

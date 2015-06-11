@@ -142,8 +142,41 @@ describe("Testing todos", function() {
         var actual = normalizer.domNode(main);
         expect(actual).toEqual(expected);
       });
-
     });
+
+    describe("editing the todo", function(){
+      var list;
+
+      beforeEach(function(){
+        var $todo = $todoApp.find(".view");
+        $todo.trigger("dblclick");
+
+        var $edit = $todoApp.find(".edit");
+        $edit.val("Now we are cooking with gas.");
+        $edit.trigger("blur");
+
+        list = $todoApp.find("ul")[0];
+      });
+
+      it("Updates the todo", function(){
+        var actual = normalizer.domNode(list);
+      
+        var expected = normalizer.reactComponent(
+          <ul>
+             <li>
+                <div>
+                  <input type="checkbox" />
+                  <label>Now we are cooking with  gas.</label>
+                  <a className="destroy" />
+                </div>
+                <input type="text" value="Now we are cooking with gas." />
+             </li>
+          </ul>
+        );
+        
+        expect(actual).toEqual(expected);
+      });
+    })
   });
   
 
