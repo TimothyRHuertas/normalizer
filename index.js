@@ -185,17 +185,17 @@
   function isReactComponent(component){
     return  component && 
             typeof component === "object" &&
-            component["key"] !== undefined &&
-            component["props"] !== undefined &&
-            component["ref"] !== undefined;
+            component.key !== undefined &&
+            component.props !== undefined &&
+            component.ref !== undefined;
   }
 
   function isReactView(view){
     return  view && 
             typeof view === "object" &&
-            view["state"] !== undefined &&
-            view["props"] !== undefined &&
-            view["refs"] !== undefined;
+            view.state !== undefined &&
+            view.props !== undefined &&
+            view.refs !== undefined;
   }
 
   return function(options) {
