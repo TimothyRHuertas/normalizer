@@ -4,7 +4,132 @@ React = require('react'),
 ReactAddons = require("react/addons"),
 TestUtils = ReactAddons.addons.TestUtils,
 chai = require('chai'),
-assert = chai.assert;
+assert = chai.assert,
+expect = chai.expect;
+
+function expectError(functionUnderTest, context, args) {
+  var wrapped = function(){
+    return functionUnderTest.apply(context,args);
+  }  
+
+  return expect(wrapped);
+}
+
+describe("Handling exceptions", (() => {
+  var normalizer, expectedError;
+
+  beforeEach(() => {
+    normalizer = new Normalizer();
+  });
+
+  describe("normalizing a dom string", (() => {
+    beforeEach(() => {
+      expectedError = "This function takes one argument.  It must be a dom string and can not be empty.";
+    });
+
+    it('triggers an exception when passing in an empty string', (() => { 
+        expectError(normalizer.domString, normalizer, [""]).to.throw(expectedError);
+    })); 
+
+    it('triggers an exception when passing in undefined', (() => { 
+        expect(normalizer.domString, normalizer).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object', (() => { 
+        expectError(normalizer.domString, normalizer, [{}]).to.throw(expectedError);
+    }));
+  }));
+
+  describe("normalizing a dom node", (() => {
+    beforeEach(() => {
+      expectedError = "This function takes one argument.  It must be a dom node and can not be null.";
+    });
+
+    it('triggers an exception when passing in null', (() => { 
+        expectError(normalizer.domNode, normalizer, [null]).to.throw(expectedError);
+    })); 
+
+    it('triggers an exception when passing in undefined', (() => { 
+        expect(normalizer.domNode, normalizer).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without an innerHTML property', (() => { 
+        expectError(normalizer.domNode, normalizer, [{}]).to.throw(expectedError);
+    }));
+  }));
+
+  describe("normalizing a react component", (() => {
+    beforeEach(() => {
+      expectedError = "This function takes one argument.  It must be a react component and can not be null.";
+    });
+
+    it('triggers an exception when passing in null', (() => { 
+        expectError(normalizer.reactComponent, normalizer, [null]).to.throw(expectedError);
+    })); 
+
+    it('triggers an exception when passing in undefined', (() => { 
+        expect(normalizer.reactComponent, normalizer).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without a key property', (() => { 
+        expectError(normalizer.reactComponent, normalizer, [{}]).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without a prop property', (() => { 
+        expectError(normalizer.reactComponent, normalizer, [{}]).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without a ref property', (() => { 
+        expectError(normalizer.reactComponent, normalizer, [{}]).to.throw(expectedError);
+    }));
+
+    it('triggers a hint exception when passing in a reactView', (() => { 
+        var TestView = React.createClass({
+                render(){
+                  return (<h1>YO</h1>);
+                }
+             });
+
+        var testView = TestUtils.renderIntoDocument(<TestView />);
+
+        var hintException = "Looks like you passed in a react view.  Try using .reactView instead of .reactComponent.";
+        expectError(normalizer.reactComponent, normalizer, [testView]).to.throw(hintException);
+    }));
+  }));
+
+  describe("normalizing a react view", (() => {
+    beforeEach(() => {
+      expectedError = "This function takes one argument.  It must be a react view and can not be null.";
+    });
+
+    it('triggers an exception when passing in null', (() => { 
+        expectError(normalizer.reactView, normalizer, [null]).to.throw(expectedError);
+    })); 
+
+    it('triggers an exception when passing in undefined', (() => { 
+        expect(normalizer.reactView, normalizer).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without a key property', (() => { 
+        expectError(normalizer.reactView, normalizer, [{}]).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without a prop property', (() => { 
+        expectError(normalizer.reactView, normalizer, [{}]).to.throw(expectedError);
+    }));
+
+    it('triggers an exception when passing in an object without a ref property', (() => { 
+        expectError(normalizer.reactView, normalizer, [{}]).to.throw(expectedError);
+    }));
+
+    it('triggers a hint exception when passing in a reactComponent', (() => { 
+        var testComponent = <br />;
+
+        var hintException = "Looks like you passed in a react component.  Try using .reactComponent instead of .reactView.";
+        expectError(normalizer.reactView, normalizer, [testComponent]).to.throw(hintException);
+    }));
+  }));
+}));
 
 describe("When using the normalier", (() => {
   var normalizerDefalut, normalizerWitelistedAttributes, normalizerWhitelistedStyles, 

@@ -3,15 +3,9 @@
 (function(factory) {   
   if (typeof exports !== 'undefined') {
     var React = require('react');
-    if (typeof document === 'undefined') {
-      var jsdom = require('jsdom').jsdom;
-      var doc = jsdom('jsdom document'); 
-      module.exports = factory(React, doc); 
-    }
-    else {
-      module.exports = factory(React, document); 
-    }
-    
+    var jsdom = require('jsdom').jsdom;
+    var doc = jsdom('jsdom document'); 
+    module.exports = factory(React, doc); 
   } else {
     window.Normalizer = { Normalizer: factory(window.React, window.document) }; // jshint ignore:line
   }
@@ -188,6 +182,22 @@
       }, {});
   }
 
+  function isReactComponent(component){
+    return  component && 
+            typeof component === "object" &&
+            component["key"] !== undefined &&
+            component["props"] !== undefined &&
+            component["ref"] !== undefined;
+  }
+
+  function isReactView(view){
+    return  view && 
+            typeof view === "object" &&
+            view["state"] !== undefined &&
+            view["props"] !== undefined &&
+            view["refs"] !== undefined;
+  }
+
   return function(options) {
     if(!options){
       options = {};
@@ -211,15 +221,37 @@
  
     return {
         reactView(view){
+          if(isReactComponent(view)){
+            throw new Error("Looks like you passed in a react component.  Try using .reactComponent instead of .reactView.");
+          }
+          else if(!isReactView(view)){ 
+            throw new Error("This function takes one argument.  It must be a react view and can not be null.");
+          }
+
           return normalizeHTMLFromReactView(view, attributesToConsider, stylesToConsider, classNamesToConsider);
         },
         reactComponent(component){
+            if(isReactView(component)){
+              throw new Error("Looks like you passed in a react view.  Try using .reactView instead of .reactComponent.");
+            }
+            else if(!isReactComponent(component)){ 
+              throw new Error("This function takes one argument.  It must be a react component and can not be null.");
+            }
+
             return normalizedHTMLFromReactComponent(component, attributesToConsider, stylesToConsider, classNamesToConsider);
         },
         domNode(node){
+            if(!node || typeof node !== "object" || node.innerHTML === undefined){
+              throw new Error("This function takes one argument.  It must be a dom node and can not be null.");
+            }
+
             return normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider);
         },
         domString(string){
+            if(!string || typeof string !== "string" ){
+              throw new Error("This function takes one argument.  It must be a dom string and can not be empty.");
+            }
+
             return normalizeHTMLString(string, attributesToConsider, stylesToConsider, classNamesToConsider);
         }
 
