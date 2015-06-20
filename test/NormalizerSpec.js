@@ -1,4 +1,3 @@
-require('core-js/es5');
 var Normalizer = require("../index.js"),
 React = require('react'),
 ReactAddons = require("react/addons"),

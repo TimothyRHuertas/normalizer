@@ -27,7 +27,6 @@
     "babel": "5.1.13",
     "babelify": "6.0.2",
     "chai": "2.3.0",
-    "core-js": "0.9.4",
     "hintify": "0.1.0",
     "karma": "0.12.31",
     "karma-browserify": "3.0.0",
