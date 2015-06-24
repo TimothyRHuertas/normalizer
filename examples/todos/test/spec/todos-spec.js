@@ -36,7 +36,7 @@ describe("Testing todos", function() {
 
   describe("when there are no todos", function(){
     it("renders the header", function() {
-      var expected = normalizer.reactComponent((<header>
+      var expected = normalizer.normalize((<header>
                         <h1>Todos</h1>
                         <input type="text" placeholder="What needs to be done?" />
                       </header>));
@@ -46,7 +46,7 @@ describe("Testing todos", function() {
     });
 
     it("renders an empty/hidden main section", function(){
-      var expected = normalizer.reactComponent((
+      var expected = normalizer.normalize((
           <section style={{display:'none'}}>
             <input type="checkbox"/>
             <label>Mark all as complete</label>
@@ -54,19 +54,19 @@ describe("Testing todos", function() {
           </section>
         ));
 
-      var actual = normalizer.domNode(main);
+      var actual = normalizer.normalize(main);
       expect(actual).toEqual(expected);
     });
 
     it("renders an empty/hidden footer", function(){
-      var expected = normalizer.reactComponent((
+      var expected = normalizer.normalize((
           <footer style={{display:'none'}}>
              <a>Clear completed</a>
              <div></div>
           </footer>
         ));
 
-      var actual = normalizer.domNode(footer);
+      var actual = normalizer.normalize(footer);
       expect(actual).toEqual(expected);
     });
   });
@@ -82,17 +82,17 @@ describe("Testing todos", function() {
     });
 
     it("resets the header", function() {
-      var expected = normalizer.reactComponent((<header>
+      var expected = normalizer.normalize((<header>
                         <h1>Todos</h1>
                         <input type="text" placeholder="What needs to be done?" />
                       </header>));
 
-      var actual = normalizer.domNode(header);
+      var actual = normalizer.normalize(header);
       expect(actual).toEqual(expected);
     });
 
     it("renders the todo in the main section and empties the text box", function(){
-      var expected = normalizer.reactComponent((
+      var expected = normalizer.normalize((
           <section style={{display:'block'}}>
              <input type="checkbox"/>
              <label>Mark all as complete</label>
@@ -109,18 +109,18 @@ describe("Testing todos", function() {
           </section>
         ));
 
-      var actual = normalizer.domNode(main);
+      var actual = normalizer.normalize(main);
       expect(actual).toEqual(expected);
     });
 
     it("renders shows the footer", function(){
-      var expected = normalizer.reactComponent((
+      var expected = normalizer.normalize((
           <footer style={{display:'block'}}>
              <div><b>1</b> item left</div>
           </footer>
         ));
 
-      var actual = normalizer.domNode(footer);
+      var actual = normalizer.normalize(footer);
       expect(actual).toEqual(expected);
     });
 
@@ -131,7 +131,7 @@ describe("Testing todos", function() {
       });
 
       it("removes the todo", function(){
-        var expected = normalizer.reactComponent((
+        var expected = normalizer.normalize((
           <section style={{display:'none'}}>
              <input type="checkbox"/>
              <label>Mark all as complete</label>
@@ -139,7 +139,7 @@ describe("Testing todos", function() {
           </section>
         ));
 
-        var actual = normalizer.domNode(main);
+        var actual = normalizer.normalize(main);
         expect(actual).toEqual(expected);
       });
     });
@@ -159,9 +159,9 @@ describe("Testing todos", function() {
       });
 
       it("Updates the todo", function(){
-        var actual = normalizer.domNode(list);
+        var actual = normalizer.normalize(list);
       
-        var expected = normalizer.reactComponent(
+        var expected = normalizer.normalize(
           <ul>
              <li>
                 <div>

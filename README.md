@@ -107,12 +107,9 @@ Normalizer's constructor `Normalizer({})` takes an optional hash with the follow
 
 ### Methods
 
-Normalizer can return a normalized HTML string for 4 types of input.  
+Normalizer can return a normalized HTML string for 4 types of input (HTML string, DOM node, ReactView and ReactElement).  
 
-* `normalizer.reactView(reactView)` 
-* `normalizer.reactComponent(reactComponent)`
-* `normalizer.domNode(domNode)`
-* `normalizer.domString(htmlString)`
+* `normalizer.normalize(string|domNode|reactView|reactElement)` 
 
 #### Disclaimer
 

@@ -3,8 +3,10 @@ React = require('react'),
 ReactAddons = require("react/addons"),
 TestUtils = ReactAddons.addons.TestUtils,
 chai = require('chai'),
+spies = require('chai-spies'),
 assert = chai.assert,
 expect = chai.expect;
+chai.use(spies);
 
 function expectError(functionUnderTest, context, args) {
   var wrapped = function(){
@@ -157,6 +159,7 @@ describe("When using the normalier", (() => {
     normalizerEmptyClasses = new Normalizer({classNames: []});
 
   });
+ 
 
   describe("and normalizing a dom string", (()=> {
     var domString;
@@ -164,6 +167,14 @@ describe("When using the normalier", (() => {
     beforeEach(() => {
       domString = "<div><div data-never='whitelisted' data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div></div>";
     }); 
+
+    describe("and calling the plymorphic method normalze", (() => {
+      it('calls normalize string when passed a string', (() => {
+        var spy = chai.spy.on(normalizerDefalut, 'domString');
+        normalizerDefalut.normalize(domString);
+        expect(spy).to.have.been.called.with(domString); 
+      }));
+    }));
 
     describe("and it's configured with the default options", (()=> {
       it('only retains the style and class attributes and removes all styles except display', (() => { 
@@ -230,6 +241,15 @@ describe("When using the normalier", (() => {
       domNode.innerHTML = "<div data-never='whitelisted' data-foo='bar' data-a='something' style='font-size: 12px; background: red; display: block' class='spin glow auto'>some text</div>";
     }); 
 
+
+    describe("and calling the plymorphic method normalze", (() => {
+      it('calls normalize dom node when passed a string', (() => {
+        var spy = chai.spy.on(normalizerDefalut, 'domNode');
+        normalizerDefalut.normalize(domNode);
+        expect(spy).to.have.been.called.with(domNode); 
+      }));
+    }));
+
     describe("and it's configured with the default options", (()=> {
       it('only retains the style and class attributes and removes all styles except display', (() => { 
         var normalized = normalizerDefalut.domNode(domNode);
@@ -294,6 +314,14 @@ describe("When using the normalier", (() => {
         </div>
       );
     }); 
+
+    describe("and calling the plymorphic method normalze", (() => {
+      it('calls normalize react element when passed a string', (() => {
+        var spy = chai.spy.on(normalizerDefalut, 'reactComponent');
+        normalizerDefalut.normalize(component);
+        expect(spy).to.have.been.called.with(component); 
+      }));
+    }));
 
     describe("and it's configured with the default options", (()=> {
       it('only retains the style and class attributes and removes all styles except display', (() => { 
@@ -365,6 +393,14 @@ describe("When using the normalier", (() => {
           <TestView />
       );
     }); 
+
+    describe("and calling the plymorphic method normalze", (() => {
+      it('calls normalize react element when passed a react view', (() => {
+        var spy = chai.spy.on(normalizerDefalut, 'reactView');
+        normalizerDefalut.normalize(view);
+        expect(spy).to.have.been.called.with(view); 
+      }));
+    }));
 
     describe("and it's configured with the default options", (()=> {
       it('only retains the style and class attributes and removes all styles except display', (() => { 
