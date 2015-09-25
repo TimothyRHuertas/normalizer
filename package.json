@@ -1,6 +1,6 @@
 {
   "name": "html-normalizer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Used to normalize html and jsx to strings so they can be used in assertions.",
   "main": "lib/index.js",
   "scripts": {
@@ -40,6 +40,6 @@
   },
   "dependencies": {
     "jsdom": "^3.1.2",
-    "react": "0.13.2"
+    "react": "0.13.3"
   }
 }
