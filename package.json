@@ -1,6 +1,6 @@
 {
   "name": "html-normalizer",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Used to normalize html and jsx to strings so they can be used in assertions.",
   "main": "lib/index.js",
   "scripts": {
