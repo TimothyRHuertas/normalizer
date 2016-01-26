@@ -72,7 +72,7 @@
     var retVal = "";
 
     if(value && value.trim()){
-      var classNames = value.replace(/\s+/g, " ").split(" ");
+      var classNames = value.replace(/\s+/g, " ").split(" ").sort();
 
       retVal = classNames.reduce((normalized, className) => {
 

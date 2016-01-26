@@ -144,7 +144,7 @@ describe("When using the normalier", (() => {
     expectedWhitelistedAttributes = "<div><div data-a=\"something\" data-foo=\"bar\">some text</div></div>";
     expectedWhitelistedStyles = "<div><div style=\"background:red; font-size:12px\">some text</div></div>";
     expectedNulls = "<div><div class=\"spin glow auto\" data-a=\"something\" data-foo=\"bar\" data-never=\"whitelisted\" style=\"background:red; display:block; font-size:12px\">some text</div></div>";
-    expectedWhitelistedClassNames = "<div><div class=\"spin auto\">some text</div></div>";
+    expectedWhitelistedClassNames = "<div><div class=\"auto spin\">some text</div></div>";
     expectedEmptyAttributes = "<div><div>some text</div></div>";
     expectedEmptyStyles = "<div><div class=\"spin glow auto\">some text</div></div>";
     expectedEmptyClasses = "<div><div style=\"display:block\">some text</div></div>";
@@ -198,7 +198,7 @@ describe("When using the normalier", (() => {
     })); 
 
     describe("and it's configured with whitelisted class names", (()=> {
-      it('only retains the whitelisted classNames', (() => { 
+      it('only retains the whitelisted classNames and sorts them', (() => { 
         var normalized = normalizerWhitelistedClassNames.domString(domString);
         assert.equal(normalized, expectedWhitelistedClassNames); 
       }));
