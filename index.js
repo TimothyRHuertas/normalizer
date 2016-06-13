@@ -1,11 +1,11 @@
 "use strict";
 
-(function(factory) {   
+(function(factory) {
   if (typeof exports !== 'undefined') {
     var React = require('react');
     var jsdom = require('jsdom').jsdom;
-    var doc = jsdom('jsdom document'); 
-    module.exports = factory(React, doc); 
+    var doc = jsdom('jsdom document');
+    module.exports = factory(React, doc);
   } else {
     window.Normalizer = { Normalizer: factory(window.React, window.document) }; // jshint ignore:line
   }
@@ -14,17 +14,17 @@
   var defaultStyles = ["display"];
   var defaultAttributes = ["style", "class"];
 
-  function normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider){
+  function normalizeHTML(node, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
     var html = "";
 
     if (node.nodeType === 1) {
       var tagName = node.tagName.toLowerCase();
       html += "<"+tagName;
-      html += normalizeAttributes(node, attributesToConsider, stylesToConsider, classNamesToConsider);
+      html += normalizeAttributes(node, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
       html += ">";
 
       if(node.hasChildNodes()){
-        Array.prototype.slice.call(node.childNodes,0).forEach(node => {html += normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider);});
+        Array.prototype.slice.call(node.childNodes,0).forEach(node => {html += normalizeHTML(node, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);});
       }
       html += "</"+tagName+">";
     }
@@ -32,14 +32,14 @@
       var nodeValue = node.nodeValue.replace(/\s+/g, ' ');
 
       if(nodeValue.trim()){
-        html += nodeValue;  
+        html += nodeValue;
       }
     }
 
     return html;
   }
 
-  function normalizeAttributes(node, attributesToConsider, stylesToConsider, classNamesToConsider){
+  function normalizeAttributes(node, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
     var attributes = "";
     var attributeList = Array.prototype.slice.call(node.attributes, 0).reduce(((map, attribute) => {
       map[attribute.nodeName] = attribute.nodeValue;
@@ -48,9 +48,10 @@
 
     Object.keys(attributeList).sort().forEach((attributeKey) => {
       var value = attributeList[attributeKey];
+      var lowerCasedAttributeKey = attributeKey.toLowerCase();
 
-      if(! attributesToConsider || //if null consider all attributes 
-        attributesToConsider[attributeKey.toLowerCase()]){
+      if (!attributesToExclude[lowerCasedAttributeKey] && // checking blacklist
+        (!attributesToConsider || attributesToConsider[lowerCasedAttributeKey])) {
 
           if(attributeKey === "style"){
             attributes += normalizeStyle(value, stylesToConsider);
@@ -81,8 +82,8 @@
           if(!normalized){
             normalized = "class=\"";
           }
-          
-          normalized += className + " ";      
+
+          normalized += className + " ";
         }
 
         return normalized;
@@ -91,7 +92,7 @@
       if(retVal){
         retVal = retVal.trim();
         retVal = " " + retVal + "\"";
-      } 
+      }
     }
 
     return retVal;
@@ -141,31 +142,31 @@
     return normalized;
   }
 
-  function normalizedHTMLFromReactComponent(reactComponent, attributesToConsider, stylesToConsider, classNamesToConsider){
+  function normalizedHTMLFromReactComponent(reactComponent, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
     var domString = React.renderToStaticMarkup(reactComponent);
-    
-    return normalizeHTMLString(domString, attributesToConsider, stylesToConsider, classNamesToConsider);
+
+    return normalizeHTMLString(domString, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
   }
 
-  function normalizeHTMLString(domString, attributesToConsider, stylesToConsider, classNamesToConsider){
+  function normalizeHTMLString(domString, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
     var holderNode = doc.createElement("div");
     holderNode.innerHTML = domString;
-    var normalized = normalizeHTML(holderNode.children[0], attributesToConsider, stylesToConsider, classNamesToConsider);
+    var normalized = normalizeHTML(holderNode.children[0], attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
 
     return normalized;
   }
 
-  function normalizeHTMLFromReactView(reactView, attributesToConsider, stylesToConsider, classNamesToConsider){
+  function normalizeHTMLFromReactView(reactView, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
       var domNode;
 
       try {
         domNode = React.findDOMNode(reactView);
-      } 
+      }
       catch(e) {
         domNode = reactView.getDOMNode();
       }
 
-      return normalizeHTML(domNode, attributesToConsider, stylesToConsider, classNamesToConsider);
+      return normalizeHTML(domNode, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
   }
 
   function toLowerMap(array){
@@ -183,7 +184,7 @@
   }
 
   function isReactComponent(component){
-    return  component && 
+    return  component &&
             typeof component === "object" &&
             component.key !== undefined &&
             component.props !== undefined &&
@@ -191,7 +192,7 @@
   }
 
   function isReactView(view){
-    return  view && 
+    return  view &&
             typeof view === "object" &&
             view.state !== undefined &&
             view.props !== undefined &&
@@ -207,6 +208,10 @@
       options.attributes = defaultAttributes;
     }
 
+    if (!options.hasOwnProperty("attributesExcluded") || options.attributesExcluded === null) {
+      options.attributesExcluded = [];
+    }
+
     if(!options.hasOwnProperty("styles")){
       options.styles = defaultStyles;
     }
@@ -216,60 +221,61 @@
     }
 
     var attributesToConsider = options.attributes ? toLowerMap(options.attributes) : null;
+    var attributesToExclude = options.attributesExcluded ? toLowerMap(options.attributesExcluded) : null;
     var classNamesToConsider = options.classNames ? toMap(options.classNames) : null;
     var stylesToConsider = options.styles ? toLowerMap(options.styles) : null;
- 
+
     return {
         reactView(view){
           if(isReactComponent(view)){
             throw new Error("Looks like you passed in a react component.  Try using .reactComponent instead of .reactView.");
           }
-          else if(!isReactView(view)){ 
+          else if(!isReactView(view)){
             throw new Error("This function takes one argument.  It must be a react view and can not be null.");
           }
 
-          return normalizeHTMLFromReactView(view, attributesToConsider, stylesToConsider, classNamesToConsider);
+          return normalizeHTMLFromReactView(view, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
         },
         reactComponent(component){
             if(isReactView(component)){
               throw new Error("Looks like you passed in a react view.  Try using .reactView instead of .reactComponent.");
             }
-            else if(!isReactComponent(component)){ 
+            else if(!isReactComponent(component)){
               throw new Error("This function takes one argument.  It must be a react component and can not be null.");
             }
 
-            return normalizedHTMLFromReactComponent(component, attributesToConsider, stylesToConsider, classNamesToConsider);
+            return normalizedHTMLFromReactComponent(component, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
         },
         domNode(node){
             if(!node || typeof node !== "object" || node.innerHTML === undefined){
               throw new Error("This function takes one argument.  It must be a dom node and can not be null.");
             }
 
-            return normalizeHTML(node, attributesToConsider, stylesToConsider, classNamesToConsider);
+            return normalizeHTML(node, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
         },
         domString(string){
             if(!string || typeof string !== "string" ){
               throw new Error("This function takes one argument.  It must be a dom string and can not be empty.");
             }
 
-            return normalizeHTMLString(string, attributesToConsider, stylesToConsider, classNamesToConsider);
+            return normalizeHTMLString(string, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
         },
         normalize(objectWithHTML){
           if(objectWithHTML && typeof objectWithHTML === "string" ){
-            return this.domString(objectWithHTML); 
+            return this.domString(objectWithHTML);
           }else if(objectWithHTML && typeof objectWithHTML === "object" && objectWithHTML.innerHTML !== undefined){
-            return this.domNode(objectWithHTML); 
+            return this.domNode(objectWithHTML);
           }
           else if(isReactComponent(objectWithHTML)){
-            return this.reactComponent(objectWithHTML); 
+            return this.reactComponent(objectWithHTML);
           }
-          else if(isReactView(objectWithHTML)){ 
-            return this.reactView(objectWithHTML); 
+          else if(isReactView(objectWithHTML)){
+            return this.reactView(objectWithHTML);
           }
           else {
             throw new Error("This function takes one argument.  It must either be an HTML string, DOM node, react componenet or react element.");
           }
-            
+
         }
     };
   };

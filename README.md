@@ -97,11 +97,12 @@ expect(actual).toEqual(expected);
 ### White listing styles and attributes.
 
 Normalizer's constructor `Normalizer({})` takes an optional hash with the following optional properties:
-* *attributes* Array of attribute names to keep when normalizing the HTML.  Defaults to `["style", "class"]`
-* *styles* Array of style names to keep when normalizing the HTML.  Defaults to `["display"]`
+* *attributes* Array of attribute names to keep when normalizing the HTML.  Defaults to `["style", "class"]`;
+* *attributesExcluded* Array of attribute names to exclude when normalizing the HTML. Defaults to `[]`;
+* *styles* Array of style names to keep when normalizing the HTML.  Defaults to `["display"]`;
 * *classNames* Array of class names to keep when normalizing the HTML.  Defaults to `null`.
 
-**NOTE:**  For all options use null to include all; use an empty array to include none. For example the `Normalizer({attributes: null, styles: null, classNames: null})` will compare all attributes, styles and classes.  `Normalizer({attributes: [], styles: [], classNames: []})` will only compare the DOM nodes and ignore all attributes, styles and classes.
+**NOTE:**  For all options use null to include all (except for *attributesExcluded*, for this case it will act like empty array); use an empty array to include none. For example the `Normalizer({attributes: null, attributesExcluded: null, styles: null, classNames: null})` will compare all attributes, styles and classes.  `Normalizer({attributes: [], styles: [], classNames: []})` will only compare the DOM nodes and ignore all attributes, styles and classes. `Normalizer({attributes: null, attributesExcluded: ['data-state'], styles: null, classNames: null})` will compare all styles, classes and all attributes except for *data-state*.
 
 
 
