@@ -208,7 +208,7 @@
       options.attributes = defaultAttributes;
     }
 
-    if (!options.hasOwnProperty("attributesExcluded")) {
+    if (!options.hasOwnProperty("attributesExcluded") || options.attributesExcluded === null) {
       options.attributesExcluded = [];
     }
 

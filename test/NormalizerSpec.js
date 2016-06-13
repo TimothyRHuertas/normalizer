@@ -151,7 +151,7 @@ describe("When using the normalier", (() => {
     expectedEmptyClasses = "<div><div style=\"display:block\">some text</div></div>";
 
     normalizerDefalut = new Normalizer();
-    normalizerWhitelistedAttributes = new Normalizer({attributes: ["data-a", "data-foo"]});
+    normalizerWhitelistedAttributes = new Normalizer({attributes: ["data-a", "data-foo"], attributesExcluded: null});
     normalizerBlacklistedAttributes = new Normalizer({attributes: null, attributesExcluded: ["data-never", "data-foo", "style", "class"]});
     normalizerWhitelistedStyles = new Normalizer({attributes: ["style"], styles: ["font-size", "background"]});
     normalizerWhitelistedClassNames = new Normalizer({attributes: ["class"], classNames: ["spin", "auto"]});
