@@ -69,7 +69,7 @@ expectedHTML += "<span>Bob</span>";
 expectedHTML += "</div>";
 
 var actual = normalizer.domNode(dom); //method to normalize a DOM node
-var expected =  = normalizer.domString(dom); //method to normalize a DOM string
+var expected =  = normalizer.domString(expectedHTML); //method to normalize a DOM string
 expect(actual).toEqual(expected); 
 ```
 
