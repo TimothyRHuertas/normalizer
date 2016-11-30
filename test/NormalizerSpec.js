@@ -162,7 +162,12 @@ describe("When using the normalier", (() => {
 
   });
 
-
+  describe("and normalizing a table fragment", (() => {
+    it("works", () => {
+      let tbody = normalizerDefalut.normalize("<tbody></tbody>");
+      expect(tbody).to.equal("<tbody></tbody>")
+    })
+  }));
   describe("and normalizing a dom string", (()=> {
     var domString;
 
