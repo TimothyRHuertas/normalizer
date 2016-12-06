@@ -17,6 +17,7 @@
   function normalizeHTML(node, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
     var html = "";
 
+    // An Element node such as <p> or <div>.
     if (node.nodeType === 1) {
       var tagName = node.tagName.toLowerCase();
       html += "<"+tagName;
@@ -28,6 +29,7 @@
       }
       html += "</"+tagName+">";
     }
+    // The actual Text of Element or Attr.
     else if (node.nodeType === 3 && node.nodeName !== "#comment") {
       var nodeValue = node.nodeValue.replace(/\s+/g, ' ');
 
@@ -188,24 +190,21 @@
             // Descend through wrappers to the right content
             var j = map[0]+1;
             while(j--) {
-                node = node.lastChild;
+                return node.lastChild.childNodes;
             }
         }
     } else {
         node.innerHTML = html;
-        node = node.lastChild;
+        return node.childNodes;
     }
-    return node;
-
-    // var holderNode = doc.createElement("div");
-    // holderNode.innerHTML = html;
-    // return holderNode.children[0];
   }
 
   function normalizeHTMLString(domString, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {
-    var dom = convertStringToDOM(domString);
-    var normalized = normalizeHTML(dom, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider);
-    return normalized;
+    var domNodes = convertStringToDOM(domString);
+
+    return [].slice.call(domNodes).map(domNode =>
+        normalizeHTML(domNode, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider)
+    ).join('');
   }
 
   function normalizeHTMLFromReactView(reactView, attributesToConsider, attributesToExclude, stylesToConsider, classNamesToConsider) {

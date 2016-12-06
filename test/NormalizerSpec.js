@@ -168,6 +168,14 @@ describe("When using the normalier", (() => {
       expect(tbody).to.equal("<tbody></tbody>")
     })
   }));
+  describe("and normalizing three root siblings", (() => {
+    it("renders all siblings", () => {
+        let html = "<div>first</div><div>second</div><div>last</div>";
+        let normalizedHTML = normalizerDefalut.normalize(html);
+
+        expect(normalizedHTML).to.equal(html)
+    });
+  }));
   describe("and normalizing a dom string", (()=> {
     var domString;
 
